@@ -16,8 +16,12 @@
 </head>
 <body>
 <div class="container" id="app" v-cloak>
-    <div style="display: flex" >
-        <h2>{{room_name}}</h2>
+    <div>
+        <h2>{{room_name}}
+<!--            <span class="badge badge-info badge-pill">{{userCount}}</span>  -->
+        </h2>
+    </div>
+    <div class="col-md-6 text-right">
         <button class="btn btn-danger" type="button" @click="ExitRoom">Exit</button>
     </div>
     <div class="input-group">
@@ -53,11 +57,13 @@
         el: '#app',                         //div 컨테이너
         data: {
             roomId: '',                     //room Id
+            room_name: '',
             room: {},                       //room 정보
             sender: '',                     //현재 접속자
-            message: '',                    //
+            userCount:0,
+            message: '',
             messages: [],
-            room_name: ''
+
         },
         created() {
             this.roomId = localStorage.getItem('wschat.roomId');        //roomId
