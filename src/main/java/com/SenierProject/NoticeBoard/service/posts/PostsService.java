@@ -1,0 +1,73 @@
+package com.SenierProject.NoticeBoard.service.posts;
+
+import com.SenierProject.NoticeBoard.domain.chat.ChatRoom;
+import com.SenierProject.NoticeBoard.service.chat.ChatService;
+import com.SenierProject.NoticeBoard.domain.posts.Posts;
+import com.SenierProject.NoticeBoard.domain.posts.PostsRepository;
+import com.SenierProject.NoticeBoard.domain.user.User;
+import com.SenierProject.NoticeBoard.domain.user.UserRepository;
+import com.SenierProject.NoticeBoard.web.dto.postdto.PostsListResponseDto;
+import com.SenierProject.NoticeBoard.web.dto.postdto.PostsResponseDto;
+import com.SenierProject.NoticeBoard.web.dto.postdto.PostsSaveRequestDto;
+import com.SenierProject.NoticeBoard.web.dto.postdto.PostsUpdateRequestDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RequiredArgsConstructor
+@Service
+public class PostsService {
+
+
+    private final UserRepository usersRepository;
+    private final PostsRepository postsRepository;
+
+    private final ChatService chatService;
+
+    @Transactional
+    public Long save(Long id, PostsSaveRequestDto requestDto){      //게시글 저장, 채팅방 생성
+
+        User user = usersRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id" + id));
+        requestDto.setUser(user);                                   //게시글의 user 객체 저장
+
+        ChatRoom chatRoom = chatService.createRoom(requestDto.getTitle());      //게시글에 제목으로 채팅방 생성
+        requestDto.setRoomId(chatRoom.getRoomId());                             //채팅방 id를 dto에 넘김
+
+        return postsRepository.save(requestDto.toEntity()).getId();         //게시물 저장
+    }
+
+    @Transactional
+    public Long update(Long id, PostsUpdateRequestDto requestDto){
+        Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id" + id));
+
+        posts.update(requestDto.getTitle(), requestDto.getContent());
+
+        return id;
+    }
+
+    @Transactional(readOnly = true)
+    public PostsResponseDto findById(Long id) {
+        Posts entity = postsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+
+        return new PostsResponseDto(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc(){
+        return postsRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete (Long id) {
+        Posts posts = postsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+
+        postsRepository.delete(posts);
+    }
+}

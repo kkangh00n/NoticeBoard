@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <title>실시간 채팅</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app" v-cloak>
+    <div style="display: flex" >
+        <h2>{{room_name}}</h2>
+        <button class="btn btn-danger" type="button" @click="ExitRoom">Exit</button>
+    </div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <label class="input-group-text">내용</label>
+        </div>
+        <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="button" @click="sendMessage">보내기</button>
+        </div>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="message in messages">
+            {{message.sender}} - {{message.message}}
+        </li>
+    </ul>
+    <div></div>
+</div>
+<!-- JavaScript -->
+<script src="/webjars/vue/2.5.16/dist/vue.min.js"></script>
+<script src="/webjars/axios/0.17.1/dist/axios.min.js"></script>
+<script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
+<script>
+    //alert(document.title);
+    // websocket & stomp initialize
+    var sock = new SockJS("/ws/chat");      //websocket sock 연결 설정
+    var ws = Stomp.over(sock);              //websocket 이용하여 Stomp 프로토콜 설정
+    var reconnect = 0;                      //재입장 위한 변수
+
+    // vue.js
+    var vm = new Vue({                      //vue 시작
+        el: '#app',                         //div 컨테이너
+        data: {
+            roomId: '',                     //room Id
+            room: {},                       //room 정보
+            sender: '',                     //현재 접속자
+            message: '',                    //
+            messages: [],
+            room_name: ''
+        },
+        created() {
+            this.roomId = localStorage.getItem('wschat.roomId');        //roomId
+            this.sender = localStorage.getItem('wschat.sender');        //유저 이름
+            this.room_name=localStorage.getItem('wschat.roomName');
+            this.findRoom();                                            //방 입장 api 호출
+        },
+        methods: {
+            findRoom: function() {              //방 입장
+                axios.get('/chat/room/'+this.roomId).then(response => { this.room = response.data; });
+            },
+            sendMessage: function() {           //메시지 전송 메소드 -> MessageController의 chat/message api
+                ws.send("/app/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, message:this.message}));
+                this.message = '';
+            },
+            recvMessage: function(recv) {       //보낸 message를 messages에 저장
+                //채팅창 출력을 위해 unshift -> 채팅한 것이 위에서 아래로 내려와야댐
+                this.messages.unshift({"type":recv.type,"sender":recv.type=='ENTER'?'[알림]':recv.sender,"message":recv.message})
+            },
+            ExitRoom: function() {
+                window.history.back();
+            }
+        }
+    });
+
+    function connect() {                //연결
+        // pub/sub event
+        ws.connect({}, function(frame) {
+            ws.subscribe("/topic/chat/room/"+vm.$data.roomId, function(message) {
+                //현재 페이지를 구독(/topic) 한 사람에게만 메시지가 보여짐
+                var recv = JSON.parse(message.body);
+                vm.recvMessage(recv);           //채팅창 출력
+            });
+            ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, sender:vm.$data.sender}));
+            //입장 메시지 출력
+
+            //현재 접속자 입장
+        }, function(error) {        //에러가 날 때 재입장
+            if(reconnect++ <= 5) {
+                setTimeout(function() {
+                    console.log("connection reconnect");
+                    sock = new SockJS("/ws/chat");
+                    ws = Stomp.over(sock);
+                    connect();
+                },10*1000);
+            }
+        });
+    }
+    connect();
+</script>
+</body>
+</html>
