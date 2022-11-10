@@ -37,3 +37,4 @@ out/
 .vscode/
 
 /src/main/resources/application-oauth.properties/
+/src/main/resources/code-community-364713-firebase-adminsdk-63jbb-24d3013f9d.json
