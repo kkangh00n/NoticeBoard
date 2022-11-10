@@ -59,6 +59,7 @@
             roomId: '',                     //room Id
             room_name: '',
             sender: '',                     //현재 접속자
+            post_id:'',
             userCount:0,
             message: '',
             messages: [],
@@ -68,6 +69,7 @@
             this.roomId = localStorage.getItem('wschat.roomId');        //roomId
             this.sender = localStorage.getItem('wschat.sender');        //유저 이름
             this.room_name=localStorage.getItem('wschat.roomName');
+            this.post_id=localStorage.getItem('wschat.post_id');
             var _this = this;
 
             ws.connect({}, function(frame) {     //연결
@@ -81,11 +83,17 @@
                 location.href="/chat/room";
             });
 
-            window.onbeforeunload = function(){     //페이지를 나갈 때
+            window.onload = function(event){    //뒤로가기나 앞으로가기로 이 페이지에 접근했을 때
+                if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
+                    alert("잘못된 접근");
+                    window.history.back();
+                }
+            };
+
+            window.onbeforeunload=function(){         //페이지 나갈때
                 ws.send("/app/chat/message", {}, JSON.stringify({type:'QUIT', roomId:_this.roomId, sender:_this.sender}));
                 ws.disconnect();
             };
-
         },
         methods: {
             sendMessage: function() {           //메시지 전송 메소드 -> MessageController의 chat/message api
@@ -97,7 +105,7 @@
                 this.messages.unshift({"type":recv.type,"sender":recv.sender,"message":recv.message})
             },
             ExitRoom: function() {
-                window.history.back();
+                window.location.href="/posts/lookup/" + this.post_id;
             }
         },
     });

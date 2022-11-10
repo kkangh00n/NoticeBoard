@@ -92,11 +92,17 @@ var main = {
         var roomId = $('#btn-enterRoom').val();
         var sender = $('#user').text();
         var room_name = $('#title').val();
+        var post_id = $('#post_id').val();
 
-        localStorage.setItem('wschat.sender', sender);
-        localStorage.setItem('wschat.roomId', roomId);
-        localStorage.setItem('wschat.roomName', room_name);
-        location.href = "/chat/room/enter/" + roomId;
+        const result = confirm("입장하시겠습니까?");
+        if(result==true) {
+            localStorage.setItem('wschat.sender', sender);
+            localStorage.setItem('wschat.roomId', roomId);
+            localStorage.setItem('wschat.roomName', room_name);
+            localStorage.setItem('wschat.post_id', post_id);
+            location.href = "/chat/room/enter/" + roomId;
+        }
+
     },
     commentSave: function () {
         var data = {
