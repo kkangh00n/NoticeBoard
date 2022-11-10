@@ -5,7 +5,6 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ChatMessage {
     public enum MessageType {
         ENTER, TALK, QUIT
@@ -19,14 +18,12 @@ public class ChatMessage {
     //내용
     private String message;
 
-    private Long userCount;
 
     @Builder
-    public ChatMessage(MessageType type, String roomId, String sender, String message, long userCount) {
+    public ChatMessage(MessageType type, String roomId, String sender, String message) {
         this.type = type;
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;
-        this.userCount = userCount;
     }
 }

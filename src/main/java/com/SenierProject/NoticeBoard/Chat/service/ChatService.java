@@ -41,23 +41,4 @@ public class ChatService {
         chatRoomRepository.deleteRoom(roomId);
     }
 
-    public String getRoomId(String destination) {
-        int lastIndex = destination.lastIndexOf('/');
-        if (lastIndex != -1)
-            return destination.substring(lastIndex + 1);
-        else
-            return "";
-    }
-
-//    public void sendChatMessage(ChatMessage chatMessage) {
-//        chatMessage.setUserCount(chatRoomRepository.getUserCount(chatMessage.getRoomId()));
-//        if (ChatMessage.MessageType.ENTER.equals(chatMessage.getType())) {
-//            chatMessage.setMessage(chatMessage.getSender() + "님이 방에 입장했습니다.");
-//            chatMessage.setSender("[알림]");
-//        } else if (ChatMessage.MessageType.QUIT.equals(chatMessage.getType())) {
-//            chatMessage.setMessage(chatMessage.getSender() + "님이 방에서 나갔습니다.");
-//            chatMessage.setSender("[알림]");
-//        }
-//        redisTemplate.convertAndSend(channelTopic.getTopic(), chatMessage);
-//    }
 }

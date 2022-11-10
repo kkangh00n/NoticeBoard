@@ -18,9 +18,6 @@ public class MessageController {
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {      //메시지 타입이 입장용이라면
             message.setMessage(message.getSender() + "님이 입장하였습니다.");
         }
-        else if (ChatMessage.MessageType.QUIT.equals(message.getType())) {
-            message.setMessage(message.getSender() + "님이 퇴장하였습니다.");
-        }
         sendingOperations.convertAndSend("/topic/chat/room/"+message.getRoomId(),message);          //메시지 타입이 대화용일 때
     }
 }
