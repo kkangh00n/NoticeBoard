@@ -1,9 +1,6 @@
 package com.SenierProject.NoticeBoard.Chat.chatdto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -11,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ChatMessage {
     public enum MessageType {
-        ENTER, TALK, EXIT
+        ENTER, TALK, QUIT
     }
 
     private MessageType type;
@@ -21,4 +18,15 @@ public class ChatMessage {
     private String sender;
     //내용
     private String message;
+
+    private Long userCount;
+
+    @Builder
+    public ChatMessage(MessageType type, String roomId, String sender, String message, long userCount) {
+        this.type = type;
+        this.roomId = roomId;
+        this.sender = sender;
+        this.message = message;
+        this.userCount = userCount;
+    }
 }

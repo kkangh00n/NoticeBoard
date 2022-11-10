@@ -58,7 +58,6 @@
         data: {
             roomId: '',                     //room Id
             room_name: '',
-            // room: {},                       //room 정보
             sender: '',                     //현재 접속자
             userCount:0,
             message: '',
@@ -69,12 +68,18 @@
             this.roomId = localStorage.getItem('wschat.roomId');        //roomId
             this.sender = localStorage.getItem('wschat.sender');        //유저 이름
             this.room_name=localStorage.getItem('wschat.roomName');
-            // this.findRoom();                                            //방 입장 api 호출
+            ws.connect({}, function(frame) {     //연결
+                ws.subscribe("/topic/chat/room/"+vm.$data.roomId, function(message) {        //구독
+                    var recv = JSON.parse(message.body);
+                    vm.recvMessage(recv);           //채팅창 출력
+                });
+                ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, sender:vm.$data.sender}));
+            }, function(error) {        //에러가 날 때 재입장
+                alert("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.");
+                location.href="/chat/room";
+            });
         },
         methods: {
-            // findRoom: function() {              //방 입장
-            //     axios.get('/chat/room/'+this.roomId).then(response => { this.room = response.data; });
-            // },
             sendMessage: function() {           //메시지 전송 메소드 -> MessageController의 chat/message api
                 ws.send("/app/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, message:this.message}));
                 this.message = '';
@@ -88,23 +93,6 @@
             }
         }
     });
-
-    function connect() {
-        // pub/sub event
-        ws.connect({}, function(frame) {     //연결
-            ws.subscribe("/topic/chat/room/"+vm.$data.roomId, function(message) {        //구독
-                var recv = JSON.parse(message.body);
-                vm.recvMessage(recv);           //채팅창 출력
-            });
-            ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, sender:vm.$data.sender}));
-            //입장 메시지 출력
-
-        }, function(error) {        //에러가 날 때 재입장
-            alert("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.");
-            location.href="/chat/room";
-        });
-    }
-    connect();
 </script>
 </body>
 </html>
