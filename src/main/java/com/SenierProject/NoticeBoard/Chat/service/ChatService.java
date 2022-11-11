@@ -1,15 +1,11 @@
 package com.SenierProject.NoticeBoard.Chat.service;
 
-import com.SenierProject.NoticeBoard.Chat.chatdto.ChatMessage;
 import com.SenierProject.NoticeBoard.Chat.domain.ChatRoom;
 import com.SenierProject.NoticeBoard.Chat.domain.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service

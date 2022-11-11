@@ -90,7 +90,7 @@ var main = {
     },
     enterRoom: function () {
         var roomId = $('#btn-enterRoom').val();
-        var sender = $('#user').text();
+        var sender = $('#user_name').text();
         var room_name = $('#title').val();
 
         const result = confirm("입장하시겠습니까?");
@@ -99,6 +99,7 @@ var main = {
             localStorage.setItem('wschat.roomId', roomId);
             localStorage.setItem('wschat.roomName', room_name);
             window.open("/chat/room/enter/" + roomId);
+            console.log(sender);
         }
 
     },

@@ -3,7 +3,8 @@
 <h1>게시글 조회</h1>
 <div class="col-md-12">
     <div class="col-md-4">
-        이름 : <span id="user">{{user.name}}</span>   이메일 : <span id="email">{{user.email}}</span>
+        <input type="hidden" id="user" value={{user}}>
+        이름 : <span id="user_name">{{user.name}}</span>   이메일 : <span id="email">{{user.email}}</span>
         <form>
             <div class="form-group">
                 <label for="title">제목</label>

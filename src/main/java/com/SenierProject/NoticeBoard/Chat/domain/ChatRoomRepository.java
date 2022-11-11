@@ -1,12 +1,9 @@
 package com.SenierProject.NoticeBoard.Chat.domain;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.*;
 
 @RequiredArgsConstructor

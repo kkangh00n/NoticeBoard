@@ -81,16 +81,8 @@
                 location.href="/chat/room";
             });
 
-            // window.onload = function(event){    //뒤로가기나 앞으로가기로 이 페이지에 접근했을 때
-            //     if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
-            //         alert("잘못된 접근");
-            //         window.history.back();
-            //     }
-            // };
-
             window.onbeforeunload=function(){         //페이지 나갈때
                 ws.send("/app/chat/message", {}, JSON.stringify({type:'QUIT', roomId:_this.roomId, sender:_this.sender}));
-                ws.disconnect();
             };
         },
         methods: {
