@@ -20,8 +20,6 @@ public class ChatMessage {
     //내용
     private String message;
 
-    //메시지를 보내는 채팅방에 세션 정보
-
     //메시지를 보내는 채팅방에 세션 수
     private Integer userCount;
 

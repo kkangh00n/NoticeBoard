@@ -57,11 +57,12 @@
         data: {
             roomId: '',                     //room Id
             room_name: '',
-            userId:'',
+            sessionId:'',
             sender: '',                     //현재 접속자
             userCount:0,
             message: '',
             messages: [],
+            sessionList: new Map()          //현재 접속자 목록
 
         },
         created() {
@@ -76,7 +77,6 @@
                     var recv = JSON.parse(message.body);
                     vm.recvMessage(recv);           //채팅창 출력
                 });
-
                 ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:_this.roomId, sender:_this.sender, sessionId:_this.sessionId}));
             }, function(error) {        //에러가 날 때 재입장
                 alert("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.");
