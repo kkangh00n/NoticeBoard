@@ -2,9 +2,12 @@ package com.SenierProject.NoticeBoard.Chat.service;
 
 import com.SenierProject.NoticeBoard.Chat.domain.ChatRoom;
 import com.SenierProject.NoticeBoard.Chat.domain.ChatRoomRepository;
+import com.SenierProject.NoticeBoard.User.config.auth.LoginUser;
+import com.SenierProject.NoticeBoard.User.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.util.*;
 
@@ -36,5 +39,9 @@ public class ChatService {
     public void deleteRoom(String roomId){
         chatRoomRepository.deleteRoom(roomId);
     }
+
+//    public void addSession(String sender, String roomId, WebSocketSession session){
+//        findById(roomId).addSession(session, sender);
+//    }
 
 }

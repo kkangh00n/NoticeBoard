@@ -53,7 +53,6 @@ public class IndexController {
             return "posts-update";
         }
         return "redirect:/";
-
     }
 
     @GetMapping("/posts/lookup/{id}")       //글 조회 페이지  (인가 필요)

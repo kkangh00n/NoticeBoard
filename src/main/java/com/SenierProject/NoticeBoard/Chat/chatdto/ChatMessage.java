@@ -15,15 +15,24 @@ public class ChatMessage {
     private String roomId;
     //보내는 사람
     private String sender;
+    //현재 접속 유저 id
+    private String sessionId;
     //내용
     private String message;
 
+    //메시지를 보내는 채팅방에 세션 정보
+
+    //메시지를 보내는 채팅방에 세션 수
+    private Integer userCount;
+
 
     @Builder
-    public ChatMessage(MessageType type, String roomId, String sender, String message) {
+    public ChatMessage(MessageType type, String roomId, String sender, String message, String sessionId, Integer userCount) {
         this.type = type;
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;
+        this.sessionId = sessionId;
+        this.userCount = userCount;
     }
 }

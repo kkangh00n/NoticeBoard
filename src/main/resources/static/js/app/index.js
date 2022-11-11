@@ -90,16 +90,17 @@ var main = {
     },
     enterRoom: function () {
         var roomId = $('#btn-enterRoom').val();
-        var sender = $('#user_name').text();
+        var user_name = $('#user_name').text();
         var room_name = $('#title').val();
+        var user_Id = $('#user').val();
 
         const result = confirm("입장하시겠습니까?");
         if(result==true) {
-            localStorage.setItem('wschat.sender', sender);
+            localStorage.setItem('wschat.sender', user_name);
             localStorage.setItem('wschat.roomId', roomId);
             localStorage.setItem('wschat.roomName', room_name);
+            localStorage.setItem('wschat.userId', user_Id);     //현재 접속유저 id
             window.open("/chat/room/enter/" + roomId);
-            console.log(sender);
         }
 
     },
