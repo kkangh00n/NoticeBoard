@@ -24,20 +24,31 @@
     <div class="col-md-6 text-right">
         <button class="btn btn-danger" type="button" @click="ExitRoom">Exit</button>
     </div>
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <label class="input-group-text">내용</label>
+    <div style="display:flex">
+        <div>
+            <ul>
+                <li class="list-group-item" v-for="session in sessions">
+                    {{session}}
+                </li>
+            </ul>
         </div>
-        <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage">
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="button" @click="sendMessage">보내기</button>
+        <div style="display: flex; flex-direction:column">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">내용</label>
+                </div>
+                <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" @click="sendMessage">보내기</button>
+                </div>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item" v-for="message in messages">
+                    {{message.sender}} - {{message.message}}
+                </li>
+            </ul>
         </div>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item" v-for="message in messages">
-            {{message.sender}} - {{message.message}}
-        </li>
-    </ul>
     <div></div>
 </div>
 <!-- JavaScript -->
@@ -57,47 +68,63 @@
         data: {
             roomId: '',                     //room Id
             room_name: '',
-            sessionId:'',
+            sessionId: '',
             sender: '',                     //현재 접속자
-            userCount:0,
+            userCount: 0,
             message: '',
             messages: [],
-            sessionList: new Map()          //현재 접속자 목록
-
+            sessions: []
         },
         created() {
             this.roomId = localStorage.getItem('wschat.roomId');        //roomId
             this.sender = localStorage.getItem('wschat.sender');        //현재 접속중인 유저 이름
-            this.room_name=localStorage.getItem('wschat.roomName');     //roomName
-            this.sessionId=localStorage.getItem('wschat.userId');          //현재 접속중인 유저 id
+            this.room_name = localStorage.getItem('wschat.roomName');     //roomName
+            this.sessionId = localStorage.getItem('wschat.userId');          //현재 접속중인 유저 id
             var _this = this;
 
-            ws.connect({}, function(frame) {     //연결
-                ws.subscribe("/topic/chat/room/"+_this.roomId, function(message) {        //구독
+            ws.connect({}, function (frame) {     //연결
+                ws.subscribe("/topic/chat/room/" + _this.roomId, function (message) {        //구독
                     var recv = JSON.parse(message.body);
                     vm.recvMessage(recv);           //채팅창 출력
                 });
-                ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:_this.roomId, sender:_this.sender, sessionId:_this.sessionId}));
-            }, function(error) {        //에러가 날 때 재입장
+                ws.send("/app/chat/message", {}, JSON.stringify({
+                    type: 'ENTER',
+                    roomId: _this.roomId,
+                    sender: _this.sender,
+                    sessionId: _this.sessionId
+                }));
+            }, function (error) {        //에러가 날 때 재입장
                 alert("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.");
-                location.href="/chat/room";
+                location.href = "/chat/room";
             });
 
-            window.onbeforeunload=function(){         //페이지 나갈때
-                ws.send("/app/chat/message", {}, JSON.stringify({type:'QUIT', roomId:_this.roomId, sender:_this.sender, sessionId:_this.sessionId}));
+            window.onbeforeunload = function () {         //페이지 나갈때
+                ws.send("/app/chat/message", {}, JSON.stringify({
+                    type: 'QUIT',
+                    roomId: _this.roomId,
+                    sender: _this.sender,
+                    sessionId: _this.sessionId
+                }));
             };
         },
         methods: {
-            sendMessage: function() {           //메시지 전송 메소드 -> MessageController의 chat/message api
-                ws.send("/app/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, message:this.message, sessionId:this.sessionId}));
+            sendMessage: function () {           //메시지 전송 메소드 -> MessageController의 chat/message api
+                ws.send("/app/chat/message", {}, JSON.stringify({
+                    type: 'TALK',
+                    roomId: this.roomId,
+                    sender: this.sender,
+                    message: this.message,
+                    sessionId: this.sessionId
+                }));
                 this.message = '';
             },
-            recvMessage: function(recv) {       //보낸 message를 messages에 저장
+            recvMessage: function (recv) {       //보낸 message를 messages에 저장
                 //채팅창 출력을 위해 unshift -> 채팅한 것이 위에서 아래로 내려와야댐
                 this.userCount = recv.userCount;
-                this.messages.unshift({"type":recv.type,"sender":recv.sender,"message":recv.message})
+                this.sessions = recv.sessions;
+                this.messages.unshift({"type": recv.type, "sender": recv.sender, "message": recv.message})
             },
-            ExitRoom: function() {
+            ExitRoom: function () {
                 window.close();
             }
         },

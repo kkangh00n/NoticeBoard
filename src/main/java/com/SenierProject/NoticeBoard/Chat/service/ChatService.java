@@ -40,8 +40,4 @@ public class ChatService {
         chatRoomRepository.deleteRoom(roomId);
     }
 
-//    public void addSession(String sender, String roomId, WebSocketSession session){
-//        findById(roomId).addSession(session, sender);
-//    }
-
 }
