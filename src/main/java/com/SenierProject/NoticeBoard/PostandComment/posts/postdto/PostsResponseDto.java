@@ -14,13 +14,9 @@ public class PostsResponseDto {
     private String title;
     private String content;
     private String author;
-
     private String email;
-
     private String roomId;
-
     private User user;
-
     private List<CommentResponseDto> comments;
 
     public PostsResponseDto(Posts entity){

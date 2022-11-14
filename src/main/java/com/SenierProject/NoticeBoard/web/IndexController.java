@@ -1,6 +1,8 @@
 package com.SenierProject.NoticeBoard.web;
 
 import com.SenierProject.NoticeBoard.PostandComment.comments.commentdto.CommentResponseDto;
+import com.SenierProject.NoticeBoard.PostandComment.posts.domain.Posts;
+import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsListResponseDto;
 import com.SenierProject.NoticeBoard.User.config.auth.LoginUser;
 import com.SenierProject.NoticeBoard.User.config.auth.dto.SessionUser;
 import com.SenierProject.NoticeBoard.User.domain.User;
@@ -29,13 +31,51 @@ public class IndexController {
     @GetMapping("/")            //기본 페이지
     public String index(Model model, @LoginUser SessionUser currentuser){
 
-        model.addAttribute("posts", postsService.findAllDesc());
+        List<PostsListResponseDto> posts = postsService.findAllDesc();
+        model.addAttribute("posts", posts);  //List<PostsListResponseDto> -> PostsListResponseDto-> List<CommentResponseDto>
         if (currentuser != null){
             model.addAttribute("myName", currentuser.getName());
             model.addAttribute("myEmail", currentuser.getEmail());
             model.addAttribute("myId", currentuser.getId());
         }
         return "index";
+    }
+    @GetMapping("/posts/lookup/{id}")       //글 조회 페이지  (인가 필요)         id = 게시물 id
+    public String postsLookup(@PathVariable Long id, Model model, @LoginUser SessionUser currentuser){
+
+        model.addAttribute("user", currentuser);    //현재 사용자 정보
+        //id = 게시물 id
+        PostsResponseDto dto = postsService.findById(id);       //게시글 정보 찾음
+
+
+        List<CommentResponseDto> comments = dto.getComments();  //게시글의 댓글 정보 찾음
+        log.info("{}", comments.size());
+
+
+        User user = userRepository.findById(currentuser.getId()).get();     //현재 접속 유저정보 get (인가 위해)
+
+        model.addAttribute("post", dto);
+
+        // 댓글 관련
+        model.addAttribute("comments", comments);
+
+        //사용자 인가 관련
+        if (dto.getUser().equals(user)){
+            model.addAttribute("writer", true);
+        }
+
+        return "posts-my-lookup";
+    }
+    @GetMapping("/mypage/{id}")         //유저 활동 내역          id = userId
+    public String mypageLookup(@PathVariable Long id, Model model){
+        //특정 유저
+        model.addAttribute("user", userRepository.findById(id).get());
+        //특정 유저의 게시물
+        model.addAttribute("post", userRepository.findById(id).get().getPosts());
+        //특정 유저의 댓글
+        model.addAttribute("comments", userRepository.findById(id).get().getComments());
+
+        return "mypage";
     }
 
     @GetMapping("/posts/save")      //글 등록 페이지
@@ -56,41 +96,5 @@ public class IndexController {
             return "posts-update";
         }
         return "redirect:/";
-    }
-
-    @GetMapping("/posts/lookup/{id}")       //글 조회 페이지  (인가 필요)         id = 게시물 id
-    public String postsLookup(@PathVariable Long id, Model model, @LoginUser SessionUser currentuser){
-        //id = 게시물 id
-        PostsResponseDto dto = postsService.findById(id);       //게시글 정보 찾음
-        List<CommentResponseDto> comments = dto.getComments();  //게시글의 댓글 정보 찾음
-
-        User user = userRepository.findById(currentuser.getId()).get();     //현재 접속 유저정보 get
-
-        model.addAttribute("post", dto);
-        model.addAttribute("user", currentuser);
-
-        // 댓글 관련
-        if (comments != null && !comments.isEmpty()) {
-            model.addAttribute("comments", comments);
-        }
-
-        //사용자 인가 관련
-        if (dto.getUser().equals(user)){
-            model.addAttribute("writer", true);
-        }
-
-        return "posts-my-lookup";
-    }
-
-    @GetMapping("/mypage/{id}")         //유저 활동 내역
-    public String mypageLookup(@PathVariable Long id, Model model){
-        //특정 유저
-        model.addAttribute("user", userRepository.findById(id).get());
-        //특정 유저의 게시물
-        model.addAttribute("post", userRepository.findById(id).get().getPosts());
-        //특정 유저의 댓글
-        model.addAttribute("comments", userRepository.findById(id).get().getComments());
-
-        return "mypage";
     }
 }

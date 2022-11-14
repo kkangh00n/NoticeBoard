@@ -112,16 +112,16 @@ var main = {
     },
     commentSave: function () {
         var data = {
-            postsId: $('#postsId').val(),
             comment: $('#comment').val()
         }
+        var postsId =  $('#postsId').val()
         if (!data.comment || data.comment.trim() === "") {
             alert("공백 또는 입력하지 않은 부분이 있습니다.");
             return false;
         } else {
             $.ajax({
                 type: 'POST',
-                url: '/api/posts/comments/' + data.postsId,
+                url: '/api/posts/comments/' + postsId,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(data)
             }).done(function () {

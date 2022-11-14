@@ -23,6 +23,7 @@
         <tr>
             <th>게시글번호</th>
             <th>제목</th>
+            <th>댓글 수</th>
             <th>작성자</th>
             <th>최종수정일</th>
         </tr>
@@ -32,8 +33,9 @@
         {{#posts}}
             <tr>
                 <td>{{id}}</td>
-                <td><a href="/posts/lookup/{{id}}">{{title}}</a></td>
-                <td><a href="/mypage/{{user.id}}">{{author}}</a></td>
+                <td><a href="/posts/lookup/{{id}}">{{title}}</a></td>           <!-- 게시물 id -->
+                <td><span class="badge badge-info badge-pill">{{comments.size}}</span></td>     <!--PostsListResponseDto -> List<CommentResponseDto> -> size -->
+                <td><a href="/mypage/{{user.id}}">{{author}}</a></td>           <!-- 게시물 주인 id -->
                 <td>{{modifiedDate}}</td>
             </tr>
         {{/posts}}
