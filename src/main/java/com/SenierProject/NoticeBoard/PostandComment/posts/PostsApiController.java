@@ -19,7 +19,7 @@ public class PostsApiController {
 
     private final ChatService chatService;
 
-    @PostMapping("/api/v1/posts/{id}")       //게시물 저장
+    @PostMapping("/api/v1/posts/{id}")       //게시물 저장       id = user의 id
     public Long save (@PathVariable Long id, @RequestBody PostsSaveRequestDto requestDto){
 
         return postsService.save(id, requestDto);

@@ -1,0 +1,46 @@
+{{>layout/header}}
+<div>
+    <h1>{{user.name}}의 활동 내역</h1>
+    <a href="javascript:window.history.back();" role="button" class="btn btn-secondary">목록으로</a>
+</div>
+<br>
+<div>
+    <h2>게시글</h2>
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>제목</th>
+            <th>최종수정일</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#post}}
+            <tr>
+                <td><a href="/posts/lookup/{{id}}">{{title}}</a></td>
+                <td>{{modifiedDate}}</td>
+            </tr>
+        {{/post}}
+        </tbody>
+    </table>
+
+    <h2>댓글</h2>
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>게시물</th>
+            <th>내용</th>
+            <th>최종수정일</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#comments}}
+            <tr>
+                <td><a href="/posts/lookup/{{posts.id}}">{{posts.title}}</a></td>
+                <td>{{comment}}</td>
+                <td>{{createdDate}}</td>
+            </tr>
+        {{/comments}}
+        </tbody>
+    </table>
+</div>
+{{>layout/footer}}

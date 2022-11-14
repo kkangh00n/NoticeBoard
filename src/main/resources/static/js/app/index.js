@@ -39,18 +39,24 @@ var main = {
 
         var currentId = $('#currentId').val();
 
-        $.ajax({
-            type: 'POST',
-            url: '/api/v1/posts/' + currentId,
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data)
-        }).done(function () {
-            alert('글이 등록되었습니다.');
-            window.location.href = '/';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
-        });
+        if (!data.title || data.title.trim() === "" || !data.content || data.content ===""){
+            alert("공백 또는 입력하지 않은 부분이 있습니다.");
+            return false;
+        }
+        else{
+            $.ajax({
+                type: 'POST',
+                url: '/api/v1/posts/' + currentId,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            }).done(function () {
+                alert('글이 등록되었습니다.');
+                window.location.href = '/';
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        }
     },
     update: function () {
         var data = {

@@ -8,6 +8,7 @@ import com.SenierProject.NoticeBoard.User.domain.UserRepository;
 import com.SenierProject.NoticeBoard.PostandComment.posts.service.PostsService;
 import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
@@ -31,6 +33,7 @@ public class IndexController {
         if (currentuser != null){
             model.addAttribute("myName", currentuser.getName());
             model.addAttribute("myEmail", currentuser.getEmail());
+            model.addAttribute("myId", currentuser.getId());
         }
         return "index";
     }
@@ -55,12 +58,13 @@ public class IndexController {
         return "redirect:/";
     }
 
-    @GetMapping("/posts/lookup/{id}")       //글 조회 페이지  (인가 필요)
+    @GetMapping("/posts/lookup/{id}")       //글 조회 페이지  (인가 필요)         id = 게시물 id
     public String postsLookup(@PathVariable Long id, Model model, @LoginUser SessionUser currentuser){
+        //id = 게시물 id
         PostsResponseDto dto = postsService.findById(id);       //게시글 정보 찾음
         List<CommentResponseDto> comments = dto.getComments();  //게시글의 댓글 정보 찾음
 
-        User user = userRepository.findById(currentuser.getId()).get();
+        User user = userRepository.findById(currentuser.getId()).get();     //현재 접속 유저정보 get
 
         model.addAttribute("post", dto);
         model.addAttribute("user", currentuser);
@@ -76,5 +80,17 @@ public class IndexController {
         }
 
         return "posts-my-lookup";
+    }
+
+    @GetMapping("/mypage/{id}")         //유저 활동 내역
+    public String mypageLookup(@PathVariable Long id, Model model){
+        //특정 유저
+        model.addAttribute("user", userRepository.findById(id).get());
+        //특정 유저의 게시물
+        model.addAttribute("post", userRepository.findById(id).get().getPosts());
+        //특정 유저의 댓글
+        model.addAttribute("comments", userRepository.findById(id).get().getComments());
+
+        return "mypage";
     }
 }

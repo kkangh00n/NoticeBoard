@@ -14,9 +14,9 @@ public class CommentApiController {
     private final CommentService commentService;
 
     /* CREATE */
-    @PostMapping("/posts/comments/{id}")
+    @PostMapping("/posts/comments/{id}")            //id = 게시물 id
     public Long commentSave(@PathVariable Long id, @RequestBody CommentRequestDto dto, @LoginUser SessionUser sessionuser) {
-        return commentService.commentSave(sessionuser, id, dto);
+        return commentService.commentSave(sessionuser, id, dto);        //id = 게시물 id, dto = 저장할 댓글 정보
     }
 }
 

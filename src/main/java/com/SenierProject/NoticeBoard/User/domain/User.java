@@ -36,7 +36,7 @@ public class User extends BaseTimeEntity {
     @OrderBy("id asc") // 게시물 정렬
     private List<Posts> posts;
 
-    @OneToMany(mappedBy = "posts", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("id asc") // 댓글 정렬
     private List<Comment> comments;
     //==========================================================

@@ -9,9 +9,10 @@ import com.SenierProject.NoticeBoard.PostandComment.posts.domain.PostsRepository
 import com.SenierProject.NoticeBoard.User.domain.User;
 import com.SenierProject.NoticeBoard.User.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CommentService {
@@ -22,6 +23,7 @@ public class CommentService {
 
     @Transactional
     public Long commentSave(SessionUser sessionuser, Long id, CommentRequestDto dto) {
+        //(현재 입장유저, 게시물 id, 저장할 댓글 정보)
 
         Posts post = postsRepository.findById(id).orElseThrow(()
                 -> new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다." + id));
@@ -32,10 +34,7 @@ public class CommentService {
         dto.setPosts(post);
 
         //========= dto 정보를 Comment 객체에 저장 후 repository 저장
-        Comment comment = dto.toEntity();
-        commentRepository.save(comment);
-
-        return dto.getId();
+        return commentRepository.save(dto.toEntity()).getId();
     }
 }
 
