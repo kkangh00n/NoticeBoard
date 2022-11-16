@@ -32,6 +32,11 @@ public class IndexController {
     public String index(Model model, @LoginUser SessionUser currentuser){
 
         List<PostsListResponseDto> posts = postsService.findAllDesc();
+//        try{
+//            log.info("{}", posts.get(0).getComments().size());
+//        }catch(IndexOutOfBoundsException e){
+//            log.info("{}", "잠시 건너뜀");
+//        }
         model.addAttribute("posts", posts);  //List<PostsListResponseDto> -> PostsListResponseDto-> List<CommentResponseDto>
         if (currentuser != null){
             model.addAttribute("myName", currentuser.getName());
@@ -49,7 +54,6 @@ public class IndexController {
 
 
         List<CommentResponseDto> comments = dto.getComments();  //게시글의 댓글 정보 찾음
-        log.info("{}", comments.size());
 
 
         User user = userRepository.findById(currentuser.getId()).get();     //현재 접속 유저정보 get (인가 위해)

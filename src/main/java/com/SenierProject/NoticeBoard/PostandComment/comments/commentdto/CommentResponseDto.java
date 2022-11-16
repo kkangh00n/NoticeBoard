@@ -23,7 +23,7 @@ public class CommentResponseDto {
         this.comment = comment.getComment();
         this.createdDate = comment.getCreatedDate();
         this.modifiedDate = comment.getModifiedDate();
-        this.posts=comment.getPosts();
-        this.users=comment.getUser();
+        this.posts=comment.getComment_posts();
+        this.users=comment.getComment_user();
     }
 }

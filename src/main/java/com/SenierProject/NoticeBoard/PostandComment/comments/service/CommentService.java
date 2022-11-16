@@ -1,5 +1,6 @@
 package com.SenierProject.NoticeBoard.PostandComment.comments.service;
 
+import com.SenierProject.NoticeBoard.PostandComment.comments.commentdto.CommentDto;
 import com.SenierProject.NoticeBoard.PostandComment.comments.commentdto.CommentRequestDto;
 import com.SenierProject.NoticeBoard.User.config.auth.dto.SessionUser;
 import com.SenierProject.NoticeBoard.PostandComment.comments.domain.Comment;
@@ -22,19 +23,21 @@ public class CommentService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long commentSave(SessionUser sessionuser, Long id, CommentRequestDto dto) {
+    public Long commentSave(SessionUser sessionuser, Long id, CommentDto dto) {
         //(현재 입장유저, 게시물 id, 저장할 댓글 정보)
+        CommentRequestDto dto2 = new CommentRequestDto();
 
         Posts post = postsRepository.findById(id).orElseThrow(()
                 -> new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다." + id));
         User user = userRepository.findById(sessionuser.getId()).orElseThrow(()
                 -> new IllegalArgumentException("작성자 x" + sessionuser.getId()));
-        //========= comment에 user와 post 저장 =============
-        dto.setUser(user);
-        dto.setPosts(post);
+        //========= comment에 user와 post, 메시지 저장 =============
+        dto2.setComment(dto.getComment());
+        dto2.setUser(user);
+        dto2.setPosts(post);
 
         //========= dto 정보를 Comment 객체에 저장 후 repository 저장
-        return commentRepository.save(dto.toEntity()).getId();
+        return commentRepository.save(dto2.toEntity()).getId();
     }
 }
 

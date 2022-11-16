@@ -29,8 +29,8 @@ public class CommentRequestDto {
                 .comment(comment)
                 .createdDate(createdDate)
                 .modifiedDate(modifiedDate)
-                .posts(posts)
-                .user(user)
+                .comment_posts(posts)
+                .comment_user(user)
                 .build();
 
         return comments;

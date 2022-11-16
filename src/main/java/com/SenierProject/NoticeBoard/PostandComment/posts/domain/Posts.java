@@ -34,11 +34,12 @@ public class Posts extends BaseTimeEntity {
     //====================== JPA 연결 ===============================
     @ManyToOne
     @JoinColumn(name = "users_id")
-    private User user;
+    private User post_user;
 
-    @OneToMany(mappedBy = "posts", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "comment_posts", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("id asc") // 댓글 정렬
-    private List<Comment> comments;
+    @Column
+    private List<Comment> post_comments;
     //==========================================================
 
     @Builder
@@ -48,8 +49,8 @@ public class Posts extends BaseTimeEntity {
         this.author = author;
         this.email = email;
         this.roomId = roomId;
-        this.user = user;
-        this.comments = comments;
+        this.post_user = user;
+        this.post_comments = comments;
     }
 
     public void update(String title, String content) {

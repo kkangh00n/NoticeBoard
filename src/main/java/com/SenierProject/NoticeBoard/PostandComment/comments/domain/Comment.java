@@ -36,11 +36,11 @@ public class Comment {
     //====================== JPA ===============================
     @ManyToOne
     @JoinColumn(name = "posts_id")
-    private Posts posts;
+    private Posts comment_posts;
 
     @ManyToOne
     @JoinColumn(name = "users_id")
-    private User user;
+    private User comment_user;
     //==========================================================
 
 

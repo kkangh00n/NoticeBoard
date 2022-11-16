@@ -30,10 +30,10 @@ public class PostsApiController {
         return postsService.update(id, requestDto);
     }
 
-    @GetMapping("api/v1/posts/{id}")       //게시글 조회
-    public PostsResponseDto findById (@PathVariable Long id){
-        return postsService.findById(id);
-    }
+//    @GetMapping("api/v1/posts/{id}")       //게시글 조회
+//    public PostsResponseDto findById (@PathVariable Long id){
+//        return postsService.findById(id);
+//    }
 
     @DeleteMapping("/api/v1/posts/{id}")    //게시글 삭제, 채팅방 삭제
     public Long delete(@PathVariable Long id) {
@@ -43,8 +43,8 @@ public class PostsApiController {
         return id;
     }
 
-    @GetMapping("/api/v1/posts/list")
-    public List<PostsListResponseDto> findAll() {
-        return postsService.findAllDesc();
-    }
+//    @GetMapping("/api/v1/posts/list")
+//    public List<PostsListResponseDto> findAll() {
+//        return postsService.findAllDesc();
+//    }
 }

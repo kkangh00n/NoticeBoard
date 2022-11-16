@@ -24,7 +24,7 @@ public class PostsListResponseDto {
         this.title = entity.getTitle();
         this.author = entity.getAuthor();
         this.modifiedDate = entity.getModifiedDate();
-        this.user = entity.getUser();
-        this.comments = entity.getComments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
+        this.user = entity.getPost_user();
+        this.comments = entity.getPost_comments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 }

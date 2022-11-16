@@ -32,12 +32,14 @@ public class User extends BaseTimeEntity {
     private Role role;
 
     //====================== JPA 연결 ===============================
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post_user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("id asc") // 게시물 정렬
+    @Column
     private List<Posts> posts;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "comment_user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("id asc") // 댓글 정렬
+    @Column
     private List<Comment> comments;
     //==========================================================
 

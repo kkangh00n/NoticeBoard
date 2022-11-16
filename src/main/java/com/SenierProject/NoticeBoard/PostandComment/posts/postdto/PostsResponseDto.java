@@ -26,7 +26,7 @@ public class PostsResponseDto {
         this.author = entity.getAuthor();
         this.email = entity.getEmail();
         this.roomId = entity.getRoomId();
-        this.user = entity.getUser();
-        this.comments = entity.getComments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
+        this.user = entity.getPost_user();
+        this.comments = entity.getPost_comments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 }
