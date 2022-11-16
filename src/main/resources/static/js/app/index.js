@@ -96,8 +96,8 @@ var main = {
     },
     enterRoom: function () {
         var roomId = $('#btn-enterRoom').val();
-        var user_name = $('#user_name').text();
-        var room_name = $('#title').val();
+        var user_name = $('#user_name').val();
+        var room_name = $('#title').text();
         var user_Id = $('#user').val();
 
         const result = confirm("입장하시겠습니까?");

@@ -1,46 +1,62 @@
 {{>layout/header}}
 
-<h1>실시간 커뮤니티</h1>
+<div style="display: flex ; justify-content: space-between; margin-top:50px; ">
+    <div></div>
+    <h1 style="font-size:40px">코질코질</h1>
+    {{#myName}}
+        <div style="margin-right:20px ">
+            <span id="user" style="font-size: 15px">이름 : <a href="/mypage/{{myId}}">{{myName}}</a></span>
+            <br>
+            <span id="email" style="font-size: 15px">이메일 : {{myEmail}}</span>
+            <span><a href="/logout" class="btn btn-info active" role="button"
+                     style="font-size: 10px ; margin-right: 40px;">Logout</a></span>
+        </div>
+    {{/myName}}
+    {{^myName}}
+        <div style="margin-right:20px">
+            <button type="button" class="btn btn-success active" id="btn-login-google" style="font-size: 20px">Google Login</button>
+            <button type="button" class="btn btn-secondary active" id="btn-login-naver" style="font-size: 20px">Naver Login</button>
+        </div>
+    {{/myName}}
+</div>
+
 <div class="col-md-12">
     <div class="row">
         <div class="col-md-6">
-            <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
-<!--            현재 세션유저-->
-            {{#myName}}
-                이름 : <span id="user"><a href="/mypage/{{myId}}">{{myName}}</a></span> 이메일 : <span id="email">{{myEmail}}</span>
-                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
-            {{/myName}}
-            {{^myName}}
-                <button type="button" class="btn btn-success active" id="btn-login-google">Google Login</button>
-                <button type="button" class="btn btn-secondary active" id="btn-login-naver">Naver Login</button>
-            {{/myName}}
+            <a href="/posts/save" role="button" class="btn btn-primary" style="margin-left:120px">글 등록</a>
+            <!--            현재 세션유저-->
         </div>
     </div>
     <br>
     <!-- 목록 출력 영역 -->
-    <table class="table table-horizontal table-bordered">
-        <thead class="thead-strong">
-        <tr>
-            <th>게시글번호</th>
-            <th>제목</th>
-            <th>댓글 수</th>
-            <th>작성자</th>
-            <th>최종수정일</th>
-        </tr>
-        </thead>
-        <tbody id="tbody">
-<!--        게시물-->
-        {{#posts}}
-            <tr>
-                <td>{{id}}</td>
-                <td><a href="/posts/lookup/{{id}}">{{title}}</a></td>           <!-- 게시물 id -->
-                <td><span class="badge badge-info badge-pill">{{comments.size}}</span></td>     <!--PostsListResponseDto -> List<CommentResponseDto> -> size -->
-                <td><a href="/mypage/{{user.id}}">{{author}}</a></td>           <!-- 게시물 주인 id -->
-                <td>{{modifiedDate}}</td>
+    <div style="padding:0 120px">
+        <table class="table table-horizontal table-bordered">
+            <thead class="thead-strong">
+            <tr style="width:100%">
+                <th style="text-align:center; width: 10%;">게시글번호</th>
+                <th style="text-align:center ; width: 20%;">제목</th>
+                <th style="text-align:center ; width: 20%;">댓글 수</th>
+                <th style="text-align:center ; width: 20%;">작성자</th>
+                <th style="text-align:center ; width: 30%;">최종수정일</th>
             </tr>
-        {{/posts}}
-        </tbody>
-    </table>
+            </thead>
+            <tbody id="tbody">
+            <!--        게시물-->
+
+            {{#posts}}
+                <tr style="font-size:20px">
+                    <td style="text-align:center">{{id}}</td>
+                    <td style="text-align:center"><a href="/posts/lookup/{{id}}">{{title}}</a></td>           <!-- 게시물 id -->
+                    <td style="text-align:center"><span class="badge badge-info badge-pill">{{comments.size}}</span></td>
+                    <!--PostsListResponseDto -> List<CommentResponseDto> -> size -->
+                    <td style="text-align:center"><a href="/mypage/{{user.id}}">{{author}}</a></td>
+                    <!-- 게시물 주인 id -->
+                    <td style="text-align:center">{{modifiedDate}}</td>
+                </tr>
+            {{/posts}}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {{>layout/footer}}

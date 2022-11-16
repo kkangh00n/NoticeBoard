@@ -16,24 +16,24 @@
 </head>
 <body>
 <div class="container" id="app" v-cloak>
-    <div>
+    <div style="text-align:center ; margin-top:100px;">
         <h2>{{room_name}}
-            <span class="badge badge-info badge-pill">{{userCount}}</span>
         </h2>
     </div>
-    <div class="col-md-6 text-right">
+    <div class="col-md-6 text-right" style="margin : 20px 0 20px 300px;">
         <button class="btn btn-danger" type="button" @click="ExitRoom">Exit</button>
     </div>
-    <div style="display:flex">
+    <div style="display:flex;  gap:100px;">
         <div>
-            <ul>
+            <ul style="text-align: center;">
+                <span class="badge badge-info badge-pill" style="margin-bottom: 20px; font-size:20px;" >인원 수 : {{userCount}}</span>
                 <li class="list-group-item" v-for="session in sessions">
                     {{session}}
                 </li>
             </ul>
         </div>
         <div style="display: flex; flex-direction:column">
-            <div class="input-group">
+            <div class="list-group" style="width:600px; margin-bottom:20px;">
                 <div class="input-group-prepend">
                     <label class="input-group-text">내용</label>
                 </div>

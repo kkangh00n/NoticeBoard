@@ -1,21 +1,23 @@
 {{>layout/header}}
 <div>
-    <h1>{{user.name}}의 활동 내역</h1>
-    <a href="javascript:window.history.back();" role="button" class="btn btn-secondary">목록으로</a>
+    <h1 style="text-align: center; margin-top:80px;">{{user.name}}의 활동 내역</h1>
 </div>
 <br>
-<div>
-    <h2>게시글</h2>
+<div style="padding: 0 200px">
+    <div>
+        <a href="javascript:window.history.back();" role="button" class="btn btn-secondary">목록으로</a>
+        <h2 style="text-align: center; margin-bottom:40px;">게시글</h2>
+    </div>
     <table class="table table-horizontal table-bordered">
         <thead class="thead-strong">
-        <tr>
+        <tr style="text-align: center">
             <th>제목</th>
             <th>최종수정일</th>
         </tr>
         </thead>
         <tbody id="tbody">
         {{#post}}
-            <tr>
+            <tr style="text-align: center">
                 <td><a href="/posts/lookup/{{id}}">{{title}}</a></td>
                 <td>{{modifiedDate}}</td>
             </tr>
@@ -23,10 +25,10 @@
         </tbody>
     </table>
 
-    <h2>댓글</h2>
+    <h2 style="text-align: center; margin-top:60px ;margin-bottom:40px;">댓글</h2>
     <table class="table table-horizontal table-bordered">
         <thead class="thead-strong">
-        <tr>
+        <tr style="text-align: center">
             <th>게시물</th>
             <th>내용</th>
             <th>최종수정일</th>
@@ -34,7 +36,7 @@
         </thead>
         <tbody id="tbody">
         {{#comments}}
-            <tr>
+            <tr style="text-align: center">
                 <td><a href="/posts/lookup/{{comment_posts.id}}">{{comment_posts.title}}</a></td>
                 <td>{{comment}}</td>
                 <td>{{createdDate}}</td>
@@ -42,5 +44,4 @@
         {{/comments}}
         </tbody>
     </table>
-</div>
 {{>layout/footer}}

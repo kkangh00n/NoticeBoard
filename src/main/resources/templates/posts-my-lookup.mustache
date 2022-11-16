@@ -1,38 +1,71 @@
 {{>layout/header}}
 
-<h1>게시글 조회</h1>
-<div class="col-md-12">
-    <div class="col-md-4">
-        <input type="hidden" id="user" value={{user.id}}>
-        이름 : <span id="user_name">{{user.name}}</span>   이메일 : <span id="email">{{user.email}}</span>
-        <form>
-            <div class="form-group">
-                <label for="title">제목</label>
-                <input type="text" class="form-control" id="title" value="{{post.title}}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="author"> 작성자 </label>
-                <input type="text" class="form-control" id="author" value="{{post.author}}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="email"> E-mail </label>
-                <input type="text" class="form-control" id="email" value="{{post.email}}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="content"> 내용 </label>
-                <textarea class="form-control" id="content" readonly>{{post.content}}</textarea>
-            </div>
-        </form>
+<h1 style="text-align: center ; margin:100px 0;">코질코질</h1>
+<input type="hidden" id="user" value={{user.id}}>
+<input type="hidden" id="user_name" value={{user.name}}>
+<input type="hidden" id="email" value={{user.email}}>
 
-        <a href="/" role="button" class="btn btn-secondary" >목록으로</a>
-        {{#writer}}
-        <a href="/posts/update/{{post.id}}" role="button" class="btn btn-primary">수정</a>
-        {{/writer}}
-        <button type="button" class="btn btn-success active" id="btn-enterRoom" value="{{post.roomId}}">채팅방 입장</button>
-
-        {{>comment/list}}
-        {{>comment/form}}
+<div style="padding: 0 200px">
+    <div class="col-md-12" style="width: 100%; display:flex; flex-direction:column; border:1px solid black ; ">
+        <h2 style="font-size:40px ; margin: 50px 0 20px 20px" id="title">{{post.title}}</h2>
+        <div style="display: flex; gap:30px; margin: 0 0 10px 24px; border-bottom: 1px solid black;">
+            <label style="font-size:20px" id="author">{{post.author}}</label>
+            <label style="font-size:20px" id="email">{{post.email}}</label>
+        </div>
+        <label style="font-size:20px ; margin: 0 0 10px 24px" id="content">{{post.content}}</label>
     </div>
 </div>
+<div style="float:right ; margin-top:40px; margin-right:200px">
+    <a href="/" role="button" class="btn btn-secondary">목록으로</a>
+    {{#writer}}
+        <a href="/posts/update/{{post.id}}" role="button" class="btn btn-primary">수정</a>
+    {{/writer}}
+    <button type="button" class="btn btn-success active" id="btn-enterRoom" value="{{post.roomId}}">채팅방 입장</button>
+</div>
+
+<div class="card" style="margin-top:20px; padding: 0 200px ; border:0">
+    <div class="card-header bi bi-chat-right-dots"> Write a Comment</div>
+    <form>
+        <input type="hidden" id="postsId" value="{{post.id}}">
+        <div class="card-body">
+            <textarea id="comment" class="form-control" rows="4" placeholder="댓글을 입력하세요"></textarea>
+            <button type="button" id="btn-comment-save" class="btn btn-outline-primary bi bi-pencil-square"
+                    style="position: absolute ; bottom:32px; right:230px;"> 등록
+            </button>
+        </div>
+    </form>
+</div>
+<div class="card" style="margin-top:20px; padding: 0 200px ; border:0">
+    <div class="card-header bi bi-chat-dots">
+        {{#comments.size}}{{comments.size}}{{/comments.size}}Comments
+    </div>
+
+    <ul class="list-group-flush" style="padding: 0px;">
+        {{#comments}}
+            <li class="list-group-item">
+                <div style="display:flex ; justify-content:space-between; align-items: center;">
+                    <div>
+                        <span style="font-size:15px">{{users.name}}</span>
+                        <span style="font-size:10px">{{createdDate}}</span>&nbsp;
+                    </div>
+                    <div>
+                    </div>
+                </div>
+                <div style="margin-top: 12px;">{{comment}}</div>
+                <div style="display:flex; justify-content:space-between">
+                    <div></div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn btn-outline-primary bi bi-pencil-square" style="font-size:14px"> 수정</button>
+                        <button class="btn btn-outline-primary bi bi-pencil-square"
+                                style="font-size:14px ; border:2px solid red ;color: red;"> 삭제
+                        </button>
+                    </div>
+                </div>
+            </li>
+        {{/comments}}
+    </ul>
+</div>
+
+
 
 {{>layout/footer}}
