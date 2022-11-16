@@ -1,9 +1,7 @@
 package com.SenierProject.NoticeBoard.web;
 
 import com.SenierProject.NoticeBoard.PostandComment.comments.commentdto.CommentResponseDto;
-import com.SenierProject.NoticeBoard.PostandComment.comments.domain.Comment;
 import com.SenierProject.NoticeBoard.PostandComment.posts.domain.Posts;
-import com.SenierProject.NoticeBoard.PostandComment.posts.domain.PostsRepository;
 import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsListResponseDto;
 import com.SenierProject.NoticeBoard.User.config.auth.LoginUser;
 import com.SenierProject.NoticeBoard.User.config.auth.dto.SessionUser;
@@ -28,19 +26,13 @@ public class IndexController {
 
     private final UserRepository userRepository;
 
-    private final PostsRepository postsRepository;
-
     private final PostsService postsService;
 
     @GetMapping("/")            //기본 페이지
     public String index(Model model, @LoginUser SessionUser currentuser){
 
         List<PostsListResponseDto> posts = postsService.findAllDesc();
-//        try{
-//            log.info("{}", posts.get(0).getComments().size());
-//        }catch(IndexOutOfBoundsException e){
-//            log.info("{}", "잠시 건너뜀");
-//        }
+
         model.addAttribute("posts", posts);  //List<PostsListResponseDto> -> PostsListResponseDto-> List<CommentResponseDto>
         if (currentuser != null){
             model.addAttribute("myName", currentuser.getName());
@@ -54,14 +46,14 @@ public class IndexController {
 
         model.addAttribute("user", currentuser);    //현재 사용자 정보
 
-        Posts dto = postsRepository.findById(id).get();       //게시글 정보 찾음
-        List<Comment> comments = dto.getPost_comments();  //게시글의 댓글 정보 찾음
+        PostsResponseDto dto = postsService.findById(id);       //게시글 정보 찾음
+        List<CommentResponseDto> comments = dto.getComments();  //게시글의 댓글 정보 찾음
         User user = userRepository.findById(currentuser.getId()).get();     //현재 접속 유저정보 get (인가 위해)
         model.addAttribute("post", dto);
         // 댓글 관련
         model.addAttribute("comments", comments);
         //사용자 인가 관련
-        if (dto.getPost_user().equals(user)){
+        if (dto.getUser().equals(user)){
             model.addAttribute("writer", true);
         }
         return "posts-my-lookup";
