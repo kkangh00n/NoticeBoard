@@ -38,7 +38,6 @@ public class Posts extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "comment_posts", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("id asc") // 댓글 정렬
-    @Column
     private List<Comment> post_comments;
     //==========================================================
 
