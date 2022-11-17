@@ -36,8 +36,11 @@ public class CommentService {
         dto2.setUser(user);
         dto2.setPosts(post);
 
+        Comment result = commentRepository.save(dto2.toEntity());
+//        log.info("{}", result.getComment_posts().getPost_comments());      //댓글의 게시물 확인
+
         //========= dto 정보를 Comment 객체에 저장 후 repository 저장
-        return commentRepository.save(dto2.toEntity()).getId();
+        return result.getId();
     }
 }
 

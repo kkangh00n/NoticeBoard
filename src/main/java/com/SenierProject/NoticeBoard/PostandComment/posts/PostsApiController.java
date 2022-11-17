@@ -1,6 +1,7 @@
 package com.SenierProject.NoticeBoard.PostandComment.posts;
 
 import com.SenierProject.NoticeBoard.Chat.service.ChatService;
+import com.SenierProject.NoticeBoard.PostandComment.posts.domain.Posts;
 import com.SenierProject.NoticeBoard.PostandComment.posts.service.PostsService;
 import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsListResponseDto;
 import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsResponseDto;
@@ -37,7 +38,7 @@ public class PostsApiController {
 
     @DeleteMapping("/api/v1/posts/{id}")    //게시글 삭제, 채팅방 삭제
     public Long delete(@PathVariable Long id) {
-        PostsResponseDto response = postsService.findById(id);      //채팅방 RoomId
+        Posts response = postsService.findById(id);      //채팅방 RoomId
         chatService.deleteRoom(response.getRoomId());
         postsService.delete(id);
         return id;

@@ -29,16 +29,19 @@ public class PostsService {
 
     private final ChatService chatService;
 
-    @Transactional
-    public Long save(Long id, PostsSaveRequestDto requestDto){      //게시글 저장, 채팅방 생성
+    @Transactional      //게시글 저장, 채팅방 생성
+    public Long save(Long id, PostsSaveRequestDto requestDto){          //사용자 id,
 
-        User user = usersRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id" + id));
+        User user = usersRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException("해당 게시글이 없습니다. id" + id));
         requestDto.setUser(user);                                   //게시글의 user 객체 저장
 
         ChatRoom chatRoom = chatService.createRoom(requestDto.getTitle());      //게시글에 제목으로 채팅방 생성
         requestDto.setRoomId(chatRoom.getRoomId());                             //채팅방 id를 dto에 넘김
 
-        return postsRepository.save(requestDto.toEntity()).getId();         //게시물 저장
+        Posts result = postsRepository.save(requestDto.toEntity());
+
+        return result.getId();         //게시물 저장
     }
 
     @Transactional
@@ -51,11 +54,12 @@ public class PostsService {
     }
 
     @Transactional(readOnly = true)
-    public PostsResponseDto findById(Long id) {
+    public Posts findById(Long id) {
         Posts entity = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+//        log.info("댓글 갯수 {}", entity.getPost_comments().size());
 
-        return new PostsResponseDto(entity);
+        return entity;
     }
 
     @Transactional(readOnly = true)
