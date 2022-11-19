@@ -32,7 +32,7 @@ public class IndexController {
 
     private final PostsService postsService;
 
-    @GetMapping("/")            //기본 페이지
+    @GetMapping("/")            //기본 페이지 o
     public String index(Model model, @LoginUser SessionUser currentuser){
 
         List<PostsListResponseDto> posts = postsService.findAllDesc();
@@ -45,14 +45,14 @@ public class IndexController {
         }
         return "index";
     }
-    @GetMapping("/posts/lookup/{id}")       //글 조회 페이지  (인가 필요)         id = 게시물 id
+    @GetMapping("/posts/lookup/{id}")       //글 조회 페이지  (id = 게시물 id)
     public String postsLookup(@PathVariable Long id, Model model, @LoginUser SessionUser currentuser){
 
-        model.addAttribute("user", currentuser);    //현재 사용자 정보
+        User user = userRepository.findById(currentuser.getId()).get();     //현재 접속 유저정보 get (인가 위해)
+        model.addAttribute("user", user);    //현재 사용자 정보
 
         Posts dto = postsService.findById(id);       //게시글 정보 찾음
         List<Comment> comments = commentRepository.findByComment_posts(dto);//게시글의 댓글 정보 찾음
-        User user = userRepository.findById(currentuser.getId()).get();     //현재 접속 유저정보 get (인가 위해)
         model.addAttribute("post", dto);
         // 댓글 관련
         model.addAttribute("comments", comments);

@@ -46,7 +46,7 @@
                 <div style="display:flex ; justify-content:space-between; align-items: center;">
                     <div>
                         <span style="font-size:15px">{{comment_user.name}}</span>
-                        <span style="font-size:10px">{{createdDate}}</span>&nbsp;
+                        <span style="font-size:10px">{{modifiedDate}}</span>&nbsp;
                     </div>
                     <div>
                     </div>
@@ -55,10 +55,9 @@
                 <div style="display:flex; justify-content:space-between">
                     <div></div>
                     <div style="display:flex; gap:10px;">
-                        <button class="btn btn-outline-primary bi bi-pencil-square" style="font-size:14px"> 수정</button>
-                        <button class="btn btn-outline-primary bi bi-pencil-square"
-                                style="font-size:14px ; border:2px solid red ;color: red;"> 삭제
-                        </button>
+                        <input type="hidden" id="commentsId" value="{{id}}">
+                        <input type="hidden" id="comments_userId" value="{{comment_user.Id}}">
+                        <button class="btn btn-outline-primary bi bi-pencil-square" id = "btn-comment-delete" style="font-size:14px ; border:2px solid red ;color: red;">삭제</button>
                     </div>
                 </div>
             </li>

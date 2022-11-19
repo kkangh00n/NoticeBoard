@@ -42,5 +42,13 @@ public class CommentService {
         //========= dto 정보를 Comment 객체에 저장 후 repository 저장
         return result.getId();
     }
+
+    @Transactional
+    public void commentDelete(Long id){
+
+        Comment comment = commentRepository.findById(id).get();
+        commentRepository.delete(comment);
+
+    }
 }
 

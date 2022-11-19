@@ -22,6 +22,9 @@ var main = {
         $('#btn-comment-save').on('click', function () {
             _this.commentSave();
         });
+        $('#btn-comment-delete').on('click', function (){
+            _this.commentDelete();
+        });
     },
     login_google: function () {
         window.location.href = '/oauth2/authorization/google';
@@ -130,6 +133,35 @@ var main = {
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
+        }
+    },
+    commentDelete: function(){
+        var comment_Id = $('#commentsId').val();
+        var comment_UserId = $('#comments_userId').val();
+        var userId = $('#user').val();
+
+        const result = confirm("정말 댓글을 삭제하시겟습니까?");
+        if (result==true){
+            if (comment_UserId == userId){
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/api/posts/comments/' + comment_Id,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8'
+                }).done(function () {
+                    alert('댓글이 삭제되었습니다.');
+                    window.location.reload();
+                }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                });
+            }
+            else{
+                alert("댓글 작성자가 아닙니다!!");
+                return false;
+            }
+        }
+        else{
+            return false;
         }
     }
 };

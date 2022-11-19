@@ -43,6 +43,5 @@ public class Comment {
     private Posts comment_posts;
     //==========================================================
 
-
 }
 

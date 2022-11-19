@@ -19,5 +19,10 @@ public class CommentApiController {
     public Long commentSave(@PathVariable Long id, @RequestBody CommentDto dto, @LoginUser SessionUser sessionuser) {
         return commentService.commentSave(sessionuser, id, dto);        //id = 게시물 id, dto = 저장할 댓글 정보
     }
+    @DeleteMapping("/posts/comments/{id}")
+    public Long commentDelete(@PathVariable Long id){
+        commentService.commentDelete(id);
+        return id;
+    }
 }
 
