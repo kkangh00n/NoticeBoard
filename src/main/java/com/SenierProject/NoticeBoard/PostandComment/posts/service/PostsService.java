@@ -6,8 +6,7 @@ import com.SenierProject.NoticeBoard.PostandComment.posts.domain.Posts;
 import com.SenierProject.NoticeBoard.PostandComment.posts.domain.PostsRepository;
 import com.SenierProject.NoticeBoard.User.domain.User;
 import com.SenierProject.NoticeBoard.User.domain.UserRepository;
-import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsListResponseDto;
-import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsResponseDto;
+import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsListResponseDto;;
 import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsSaveRequestDto;
 import com.SenierProject.NoticeBoard.PostandComment.posts.postdto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -75,5 +74,9 @@ public class PostsService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
         postsRepository.delete(posts);
+    }
+
+    public Posts findByRoomId (String roomId){
+        return postsRepository.findByRoomId(roomId);
     }
 }
