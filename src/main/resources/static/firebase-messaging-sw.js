@@ -1,8 +1,11 @@
-importScripts('https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/5.9.2/firebase-messaging.js');
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Initialize Firebase
-let firebaseConfig = {
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
         apiKey: "AIzaSyAs9JiWQrk3rzPU_m83mwWQqmMtuWPj2Nc",
         authDomain: "code-community-364713.firebaseapp.com",
         projectId: "code-community-364713",
@@ -11,5 +14,7 @@ let firebaseConfig = {
         appId: "1:1075812926594:web:44545d014285b4ffe0209b",
         measurementId: "G-0NKGRVFBKY"
 };
-firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
