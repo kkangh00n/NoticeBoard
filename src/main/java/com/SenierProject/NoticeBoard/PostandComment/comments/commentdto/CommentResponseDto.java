@@ -14,14 +14,12 @@ public class CommentResponseDto {
     private Posts posts;
     private User users;
     private String comment;
-    private String createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
     private String modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 
 
     public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
         this.comment = comment.getComment();
-        this.createdDate = comment.getCreatedDate();
         this.modifiedDate = comment.getModifiedDate();
         this.posts=comment.getComment_posts();
         this.users=comment.getComment_user();

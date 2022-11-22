@@ -20,7 +20,7 @@
     {{#writer}}
         <a href="/posts/update/{{post.id}}" role="button" class="btn btn-primary">수정</a>
     {{/writer}}
-    <button type="button" class="btn btn-success active" id="btn-enterRoom" value="{{post.roomId}}">채팅방 입장</button>
+    <button type="button" class="btn btn-success active" id="btn-enterRoom" value="{{post.roomId}}">채팅방 입장<span class="badge badge-info badge-pill">{{chatRoomUser}}</span></button>
 </div>
 
 <div class="card" style="margin-top:20px; padding: 0 200px ; border:0">

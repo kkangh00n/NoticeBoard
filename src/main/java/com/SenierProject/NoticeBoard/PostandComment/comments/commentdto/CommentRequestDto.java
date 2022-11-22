@@ -20,15 +20,13 @@ public class CommentRequestDto {
     private Posts posts;
     private User user;
     private String comment;
-    private String createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
-    private String modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+//    private String createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+//    private String modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 
     public Comment toEntity() {
         Comment comments = Comment.builder()
                 .id(id)
                 .comment(comment)
-                .createdDate(createdDate)
-                .modifiedDate(modifiedDate)
                 .comment_posts(posts)
                 .comment_user(user)
                 .build();

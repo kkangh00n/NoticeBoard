@@ -1,5 +1,6 @@
 package com.SenierProject.NoticeBoard.PostandComment.comments.domain;
 
+import com.SenierProject.NoticeBoard.PostandComment.posts.domain.BaseTimeEntity;
 import com.SenierProject.NoticeBoard.PostandComment.posts.domain.Posts;
 import com.SenierProject.NoticeBoard.User.domain.User;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @Getter
 @Table(name = "comments")
 @Entity
-public class Comment {
+public class Comment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,13 +26,7 @@ public class Comment {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String comment; // 댓글 내용
 
-    @Column(name = "created_date")
-    @CreatedDate
-    private String createdDate;
 
-    @Column(name = "modified_date")
-    @LastModifiedDate
-    private String modifiedDate;
 
     //====================== JPA ===============================
     @ManyToOne

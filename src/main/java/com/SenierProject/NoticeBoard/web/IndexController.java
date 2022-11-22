@@ -1,5 +1,6 @@
 package com.SenierProject.NoticeBoard.web;
 
+import com.SenierProject.NoticeBoard.Chat.domain.ChatRoomRepository;
 import com.SenierProject.NoticeBoard.PostandComment.comments.commentdto.CommentResponseDto;
 import com.SenierProject.NoticeBoard.PostandComment.comments.domain.Comment;
 import com.SenierProject.NoticeBoard.PostandComment.comments.domain.CommentRepository;
@@ -27,10 +28,9 @@ import java.util.List;
 public class IndexController {
 
     private final UserRepository userRepository;
-
     private final CommentRepository commentRepository;
-
     private final PostsService postsService;
+    private final ChatRoomRepository chatRoomRepository;
 
     @GetMapping("/")            //기본 페이지 o
     public String index(Model model, @LoginUser SessionUser currentuser){
@@ -54,6 +54,7 @@ public class IndexController {
         Posts dto = postsService.findById(id);       //게시글 정보 찾음
         List<Comment> comments = commentRepository.findByComment_posts(dto);//게시글의 댓글 정보 찾음
         model.addAttribute("post", dto);
+        model.addAttribute("chatRoomUser", chatRoomRepository.findById(dto.getRoomId()).getSessions().size());
         // 댓글 관련
         model.addAttribute("comments", comments);
         //사용자 인가 관련
