@@ -11,8 +11,8 @@
     <table class="table table-horizontal table-bordered">
         <thead class="thead-strong">
         <tr style="text-align: center">
-            <th>제목</th>
-            <th>최종수정일</th>
+            <th style="width: 30%">제목</th>
+            <th style="width: 20%">최종수정일</th>
         </tr>
         </thead>
         <tbody id="tbody">
@@ -29,16 +29,16 @@
     <table class="table table-horizontal table-bordered">
         <thead class="thead-strong">
         <tr style="text-align: center">
-            <th>게시물</th>
-            <th>내용</th>
-            <th>최종수정일</th>
+            <th style="width: 30%">내용</th>
+            <th style="width: 25%">게시물</th>
+            <th style="width: 20%">최종수정일</th>
         </tr>
         </thead>
         <tbody id="tbody">
         {{#comments}}
             <tr style="text-align: center">
-                <td><a href="/posts/lookup/{{comment_posts.id}}">{{comment_posts.title}}</a></td>
                 <td>{{comment}}</td>
+                <td><a href="/posts/lookup/{{comment_posts.id}}">{{comment_posts.title}}</a></td>
                 <td>{{createdDate}}</td>
             </tr>
         {{/comments}}
