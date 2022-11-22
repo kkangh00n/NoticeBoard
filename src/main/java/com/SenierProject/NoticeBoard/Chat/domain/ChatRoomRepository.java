@@ -17,15 +17,6 @@ public class ChatRoomRepository {
         chatRooms = new LinkedHashMap<>();
     }
 
-    //채팅방 불러오기
-    public List<ChatRoom> findAllRoom() {
-        //채팅방 최근 생성 순으로 반환
-        List<ChatRoom> result = new ArrayList<>(chatRooms.values());
-        Collections.reverse(result);
-
-        return result;
-    }
-
     //채팅방 하나 불러오기
     public ChatRoom findById(String roomId) {
         return chatRooms.get(roomId);

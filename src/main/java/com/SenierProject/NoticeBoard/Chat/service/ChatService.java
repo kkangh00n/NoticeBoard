@@ -18,13 +18,6 @@ public class ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
 
-
-    //채팅방 불러오기
-    public List<ChatRoom> findAllRoom() {
-        //채팅방 최근 생성 순으로 반환
-        return chatRoomRepository.findAllRoom();
-    }
-
     //채팅방 하나 불러오기
     public ChatRoom findById(String roomId) {
         return chatRoomRepository.findById(roomId);
