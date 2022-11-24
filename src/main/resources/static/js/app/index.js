@@ -135,10 +135,10 @@ var main = {
             });
         }
     },
-    commentDelete: function(comment_Id, comment_UserId, userId){
+    commentDelete: function(comment_Id, comment_UserId){
         // var comment_Id = $('#commentsId').val();
         // var comment_UserId = $('#comments_userId').val();
-        // var userId = $('#user').val();
+        var userId = $('#user').val();
 
         const result = confirm("정말 댓글을 삭제하시겟습니까?");
         if (result==true){
