@@ -17,7 +17,7 @@ public class ChatRoomController {
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
     public String roomDetail() {
-        return "/chat/roomdetail";
+        return "chat/roomdetail";
     }
 
 }
