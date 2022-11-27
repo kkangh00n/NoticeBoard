@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Builder
 @AllArgsConstructor
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @Getter
 @Table(name = "comments")
 @Entity
-public class Comment extends BaseTimeEntity {
+public class Comment extends BaseTimeEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

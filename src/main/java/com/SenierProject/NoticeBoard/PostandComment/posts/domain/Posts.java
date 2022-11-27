@@ -7,12 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Entity     //JPA에서 제공, 테이블과 링크될 클래스임을 나타냄
-public class Posts extends BaseTimeEntity {
+public class Posts extends BaseTimeEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
